@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For My Dearest Diduu Piduuu 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffb6c1, #ffd1dc, #fff0f5);
+      font-family: Arial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 550px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      background: #ff4d6d;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+      margin-top: 15px;
+      text-align: left;
+      white-space: pre-line;
+      line-height: 1.6;
+      color: #444;
+      min-height: 200px;
+    }
+
+    .heart {
+      font-size: 40px;
+      animation: beat 1s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes beat {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    /* kittens */
+    .kitten {
+      position: fixed;
+      width: 60px;
+      animation: float 6s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .typing {
+      border-right: 2px solid #ff4d6d;
+      display: inline-block;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- kittens -->
+<img class="kitten" style="top:10%; left:5%" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+<img class="kitten" style="top:70%; left:10%" src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
+<img class="kitten" style="top:20%; right:8%" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+
+  <h1>💖 for my dearest diduu piduuu 💖</h1>
+  <p class="subtitle">AI Surprise Birthday Page 🎁</p>
+
+  <input type="text" id="name" placeholder="Enter name">
+  <br>
+  <button onclick="unlock()">Ask AI 💌</button>
+
+  <div id="content" class="hidden">
+    <div class="heart" onclick="heartBoom()">💖</div>
+    <div id="typed" class="typing"></div>
+  </div>
+
+</div>
+
+<script>
+
+// AI typing effect text
+const fullText = `Happiest Birthdayyyy to my dearest Diduuuuu Piduuuu 💖💖
+
+Happiest birthdayyyy to my dearest diduuuuu piduuuu 💖💖
+
+Wishing youuu a very very very happy 18th birthdayyy 🫶🏻
+
+may this year bring you all the sucesss and happiness you deserve... 
+
+You are the bestttt person I have ever met in my whole life… and you will always be the only best person for me in the future too 🥺💖
+
+Main aapko bata bhi nahi sakta ki aap mere liye kitni important ho… you are the best diduuu 🫂
+
+Aapka daantna, aapka mujhe tease karna… itna zyada accha lagta hai mujhe ki main words me explain bhi nahi kar sakta 😭💖
+
+Diduuu, you are really really an amazing person… aap jaisi strong aur courageous ladki maine aaj tak nahi dekhi 🫶🏻
+
+me roj god se puchahta tha ki meri koi didu kyu nahi hai sab ki hai meri kyu nahi and then god gave me the bestestest present in the form of u … you filled that empty space forever 💖
+
+Aap sach me the best ho diduuu 🥺💖
+
+Dil karta hai aapko zor se huggie huggie karu 🫂... I love youuu sooo sooo much diduuu ❤️
+
+You are and you will always be my diduuu forever 🫶🏻💖
+
+Aapse baat karke mera din itna accha ho jaata hai ki main bata nahi sakta… and I always pray ki aap hamesha khush raho 💫
+
+Aur haan… aap itni best ho na ki main words me express hi nahi kar paata… you are truly incredible diduuuu 💖
+
+Aap duniya ki sabse best diduu ho… aur God ka diya hua sabse beautiful gift ho mere liye ❤️
+
+Loveeee youuuuu soooo muchhh diduuuuuu piduuuuuu 💖💖💖💖💖💖💖💖💖💖💖
+
+Happyyyyy hapooooo birthdayyyy to my kyuuuu butuuuukuuuuuuu 🫶🏻💖🎂
+
+love uu sooo much diduu 
+             --from your Bhondu Chotuuuu `;
+
+function unlock() {
+  let name = document.getElementById("name").value;
+
+  if(name.length > 0){
+    document.getElementById("content").style.display = "block";
+    typeWriter();
+  } else {
+    alert("AI: Please enter a name 😄");
+  }
+}
+
+// typing animation
+let i = 0;
+function typeWriter() {
+  if (i < fullText.length) {
+    document.getElementById("typed").innerHTML += fullText.charAt(i);
+    i++;
+    setTimeout(typeWriter, 20);
+  }
+}
+
+// heart explosion
+function heartBoom() {
+  for(let i=0;i<20;i++){
+    let h = document.createElement("div");
+    h.innerHTML = "💖";
+    h.style.position = "fixed";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.top = "50vh";
+    h.style.fontSize = "20px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+  }
+}
+
+// confetti
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+for(let i=0;i<100;i++){
+  pieces.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*6+2
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#ff4d6d";
+
+  pieces.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+    p.y += 1;
+    if(p.y>canvas.height) p.y=0;
+  });
+}
+
+setInterval(draw,30);
+
+</script>
+
+</body>
+</html>
